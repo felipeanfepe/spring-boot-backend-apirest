@@ -63,23 +63,23 @@ public class ClienteRestController {
         return clienteService.findAll(pageable);
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    //@Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/clientes/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
         Cliente cliente = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            cliente = clienteService.findById(id);                        
+            cliente = clienteService.findById(id);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error en el sistema pongase en contacto con soporte tecnico!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }        
+        }
         if (cliente == null) {
             response.put("mensaje", "El cliente con el ID: " .concat(id.toString()).concat(" no existe!"));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-        }   
-        return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);  
+        }
+        return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
     }
 
     @Secured("ROLE_ADMIN")
@@ -114,7 +114,7 @@ public class ClienteRestController {
     @PutMapping("/clientes/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
         Cliente clienteActual = clienteService.findById(id);
-        Cliente clienteUpdate = null;        
+        Cliente clienteUpdate = null;
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {
@@ -122,7 +122,7 @@ public class ClienteRestController {
                 .stream()
                 .map( err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
                 .collect(Collectors.toList());
-                
+
             response.put("errors", errors);
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
         }
@@ -130,7 +130,7 @@ public class ClienteRestController {
         if (clienteActual == null) {
             response.put("mensaje", "Error: El cliente con el ID: " .concat(id.toString()).concat(" no existe, por lo tanto no se puede editar!"));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-        } 
+        }
         try {
             clienteActual.setApellido(cliente.getApellido());
             clienteActual.setNombre(cliente.getNombre());
@@ -142,7 +142,7 @@ public class ClienteRestController {
             response.put("mensaje", "Error en el sistema al editar el cliente pongase en contacto con soporte tecnico!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }        
+        }
 
         response.put("cliente", clienteUpdate);
         response.put("mensaje", "El cliente ha sido editado con exito!");
@@ -194,7 +194,7 @@ public class ClienteRestController {
 
     @GetMapping("/clientes/uploads/img/{nombreFoto:.+}")
     public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto) {
-        Resource recurso = null;         
+        Resource recurso = null;
         try {
             recurso = uploadService.cargar(nombreFoto);
         } catch (MalformedURLException e) {

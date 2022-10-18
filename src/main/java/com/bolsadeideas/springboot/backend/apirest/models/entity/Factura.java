@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity()
 @Table(name = "facturas")
@@ -36,10 +37,12 @@ public class Factura implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date createAt;
 
+    @JsonIgnoreProperties({ "facturas", "hibernateLazyInitializer", "handler" })
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "factura_id")
     private List<ItemFactura> items;
@@ -99,6 +102,14 @@ public class Factura implements Serializable {
 
     public void setItems(List<ItemFactura> items) {
       this.items = items;
+    }
+
+    public Double getTotal() {
+      Double total = 0.00;
+      for(ItemFactura item: items) {
+        total += item.getImporte();
+      }
+      return total;
     }
 
     private static final long serialVersionUID = 1L;

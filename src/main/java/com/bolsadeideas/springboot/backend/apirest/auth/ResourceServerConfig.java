@@ -25,7 +25,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         .antMatchers(
             HttpMethod.GET,"/api/clientes",
             "/api/clientes/page/**",
-            "/api/clientes/uploads/img/**", "/images/**").permitAll()/* 
+            "/api/clientes/uploads/img/**", "/images/**").permitAll()
+            .antMatchers(
+                "/api/clientes/{id}").permitAll()
+            .antMatchers(
+                "/api/facturas/**").permitAll()/*
         .antMatchers(
                 HttpMethod.GET, "/api/clientes/{id}"
         ).hasAnyRole("USER", "ADMIN")
@@ -36,7 +40,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         ).hasRole("ADMIN") */.anyRequest().authenticated()
         .and().cors().configurationSource(corsConfigurationSource());
     }
-    
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
