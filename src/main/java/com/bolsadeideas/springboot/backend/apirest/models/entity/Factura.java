@@ -37,7 +37,7 @@ public class Factura implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date createAt;
 
-    @JsonIgnoreProperties({ "facturas", "hibernateLazyInitializer", "handler" })
+    @JsonIgnoreProperties(value = { "facturas", "hibernateLazyInitializer", "handler" }, allowSetters = true)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

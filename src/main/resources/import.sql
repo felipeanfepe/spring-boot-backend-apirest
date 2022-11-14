@@ -50,7 +50,7 @@ INSERT INTO roles (nombre) VALUES ('ROLE_ADMIN');
 INSERT INTO roles (nombre) VALUES ('ROLE_USER');
 INSERT INTO usuarios_roles (usuario_id, role_id) VALUES (1,1);
 INSERT INTO usuarios_roles (usuario_id, role_id) VALUES (2,2);
-INSERT INTO usuarios_roles (usuario_id, role_id) VALUES (2,1);
+INSERT INTO usuarios_roles (usuario_id, role_id) VALUES (1,2);
 INSERT INTO productos (nombre, precio, create_at) VALUES ('Panasonic Pantalla LCD', 259990, NOW());
 INSERT INTO productos (nombre, precio, create_at) VALUES ('Sony Camara digital DSC-W320B', 123490, NOW());
 INSERT INTO productos (nombre, precio, create_at) VALUES ('Apple iPod shuffle', 1234999909, NOW());
